@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+int n;	//Number of entries for linkedlist
+int i,j=0;
+int nd;		//variable for new data
+int pos;	//variable for position to be inserted
+struct linkedlist
+{
+	int data;
+	struct linkedlist *next;
+};
+
+struct linkedlist *global=NULL;
+
+
+void push(struct linkedlist **h, int newdata)	
+{
+
+
+	if((*h) == NULL)
+	{
+		(*h)= (struct linkedlist *)malloc(sizeof(struct linkedlist));
+		(*h)->data = newdata;
+		(*h)->next = NULL;
+	}
+	else{
+
+		struct linkedlist *t = (struct linkedlist *)malloc(sizeof(struct linkedlist));
+		t->data = newdata;
+		t->next = (*h);
+		(*h)=t;
+	}
+
+	global = (*h);
+
+}
+
+
+void print()
+{
+	if(global == NULL)
+		printf("List is empty\n");
+	else{
+		printf("The linked list is\n");
+		struct linkedlist *t = (struct linkedlist *)malloc(sizeof(struct linkedlist));
+		t=global;
+		while(t->next!= NULL){
+			printf("%d->\n",t->data);
+			t=t->next;
+		}
+	}
+}
+
+
+void pop(){		//deletes the head element
+	struct linkedlist *t = (struct linkedlist *)malloc(sizeof(struct linkedlist));
+	t=(global->next);
+	free(global);
+	global = t;
+}
+
+void insert(){
+	printf("Enter data to be inserted\n");
+	scanf("%d",&nd);
+	printf("Enter position to be inserted\n");
+	scanf("%d",&pos);	
+
+	if(pos<1)printf("Enter valid position\n");
+	else{
+		struct linkedlist *t = (struct linkedlist *)malloc(sizeof(struct linkedlist));
+		struct linkedlist *temp = (struct linkedlist *)malloc(sizeof(struct linkedlist));
+		t->data = nd;
+		temp = global;
+
+
+		if(pos==1) push(&global,nd);
+
+		else {
+			j=1;
+			while(temp!=NULL){
+
+				if(j==(pos-1)){
+					t->next = (temp->next);
+					temp->next = t;
+				}
+
+				temp =  (temp->next);
+				j++;
+
+			}
+
+
+		}
+	}
+}
+
+void createarraylist()		//Function to create an array of lists
+{
+	int num,i,j,r;
+	printf("Enter number of eleents of array for arraylist\n");
+	scanf("%d", num);
+	for (i = 0; i < num; ++i)
+	{
+		r=rand();
+		for (j = 0; i < r; ++j)
+		{
+			
+		}
+	}
+}
+
+int main()
+{
+
+	struct linkedlist *head1 = (struct linkedlist *)malloc(sizeof(struct linkedlist));	
+	head1->next=NULL;
+
+	printf("Enter number of entries:\n");
+	scanf("%d",&n);
+
+	for (i = 0; i < n; ++i)
+	{
+		printf("Enter %dth newdata\n",i);
+		scanf("%d", &nd);
+		push(&head1, nd);
+	}
+
+
+print();
+
+pop();
+
+print();
+
+insert();
+
+print();
+
+return 0;
+}
